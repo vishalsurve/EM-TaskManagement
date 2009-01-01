@@ -111,4 +111,12 @@ public class Task {
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
+    public Workspace getWorkspace() {
+        return workspace;
+    }
+
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }   
 }

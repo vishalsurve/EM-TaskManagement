@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDAOImpl implements UserDAO{
 
     @Autowired
-    private SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -104,13 +104,13 @@ public class UserDAOImpl implements UserDAO{
         String email = user.getEmail();
         sessionFactory.getCurrentSession().beginTransaction();
         if (firstname != "" && email != "") {
-            sessionFactory.getCurrentSession().save(user);
+            sessionFactory.getCurrentSession().saveOrUpdate(user);
         } else {
         }
         sessionFactory.getCurrentSession().beginTransaction().commit();
     }
 
-    public List<String> getAllUser() {
+    public  List<String> getAllUser() {
         List<String> list = new ArrayList<String>();
         String hql = "from User";
         sessionFactory.getCurrentSession().beginTransaction();
@@ -123,5 +123,24 @@ public class UserDAOImpl implements UserDAO{
         }
         sessionFactory.getCurrentSession().beginTransaction().commit();
         return list;
+    }
+    
+    
+     public static List listUser() {
+        sessionFactory.getCurrentSession().beginTransaction();
+        String hql = "from User";
+        Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
+
+        List<User> users = createQuery.list();
+        return users;
+    }
+
+    public static List listUserAccordingID(int userid) {
+        sessionFactory.getCurrentSession().beginTransaction();
+        String hql = "from User where userid=" + userid;
+        Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
+
+        List<User> users = createQuery.list();
+        return users;
     }
 }

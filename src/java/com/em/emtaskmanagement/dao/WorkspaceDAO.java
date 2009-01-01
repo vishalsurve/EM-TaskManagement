@@ -15,6 +15,8 @@ public interface WorkspaceDAO {
 
     public int getWorkspaceIdByName(String name);
 
+    public Workspace getWorkspaceByName(String workspacename);
+
     public void saveWorkspace(Workspace workspace);
 
     public void addUserList(int workspaceid, List UserId);

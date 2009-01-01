@@ -86,12 +86,12 @@ public class WorkspaceController {
     public String getWorkspace(@PathVariable("workspacename") String workspacename, ModelMap modelMap, HttpServletRequest request) {
         
         HttpSession session = request.getSession(true);
-        session.setAttribute("workspacename", request);
+        session.setAttribute("workspacename", workspacename);
         List<String> allUser = userDAOImpl.getAllUser();
         modelMap.put("userList", allUser);
         modelMap.put("workspacename", workspacename);
 
-        return "home";
+        return "workspace";
     }
 
     @RequestMapping(value = "workspacename/adduser", method = RequestMethod.POST)
@@ -101,6 +101,7 @@ public class WorkspaceController {
         String[] userlist = request.getParameterValues("userdata");
 
         int workspaceIdByName = workspaceDAOImpl.getWorkspaceIdByName(workspacename);
+        
         List UserId = userDAOImpl.getUserIdByName(userlist);
         workspaceDAOImpl.addUserList(workspaceIdByName, UserId);
     }

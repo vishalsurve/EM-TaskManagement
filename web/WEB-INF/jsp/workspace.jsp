@@ -11,43 +11,54 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="CSS/styles.css" />
-        <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
-        <script type="text/javascript">
-            var contexPath = "<%=request.getContextPath()%>";
-        </script>
-        <script src="<%=request.getContextPath()%>/js/workspace.js"></script>
-        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/style/app.css">
+        <title>JSP Page</title>
     </head>
     <body>
-    <center><table border="1" style="width: available">
-            <tr>
-                <td colspan="2"><div id="error" class="error"></div></td>
-            </tr>
-            <tr>
-                <td>Add Workspace :<input type="text" id="workspacename"><br/></td>
-                <td><input type="button" value="Add Workspace" onclick="doAjaxPost();"><br/></td>
-                <td><input type="button" value="show Workspace" onclick="showList();"><br/></td>
-            </tr>
-            <tr>
-                <td><div id="info" class="success">
+        <header>
+            <table width="100%">
+                <tr><td>
+                        <div id="Layer1" align="right" style="">
+                            <a href="aboutus" style="color: #FFFFFF">About Us</a>&nbsp;&nbsp;
+                            <a href="saveuser" style="color: #FFFFFF">Signup</a>&nbsp;&nbsp;
+                            <a href="login" style="color: #FFFFFF">Login</a>&nbsp;&nbsp;
+                            <a href="logout" style="color: #FFFFFF">LogOut</a>&nbsp;&nbsp;
+                            <a href="#"></a>
+                        </div><br>
+                    </td></tr>
+                <tr>
+                <img src="images/nature.jpg" height="80px " width="100%">
+                </tr>
+            </table>
+        </header>
+        <!--    <center><table border="1" style="width: available">
+                    <tr>
+                        <td colspan="2"><div id="error" class="error"></div></td>
+                    </tr>
+                    <tr>
+                        <td>Add Workspace :<input type="text" id="workspacename"><br/></td>
+                        <td><input type="button" value="Add Workspace" onclick="doAjaxPost();"><br/></td>
+                        <td><input type="button" value="show Workspace" onclick="showList();"><br/></td>
+                    </tr>
+                    <tr>
+                        <td><div id="info" class="success">
+        
+                            </div></td>
+                    </tr>
+                </table></center>-->
 
-                    </div></td>
-            </tr>
-        </table></center>
 
-
-    <table border="1" style="width: available">
-        <tr valign="top">
-            <td width="250px" NOWRAP>
-                <h2 style="margin: 0px; padding: 5px 0px 0px 8px; height: 21px;	background-color: #1b4376; font-size: 14px; color: #FFFFFF;">
-                    Functions :
-                </h2>
-                <table border="1">
-                    <tbody>
-                        <tr><a href="addworkspace">Edit</a></tr><br>
-        <tr><a href="addworkspace">Delete</a></tr><br>
-    <tr><a href="addworkspace">View</a></tr><br>
-<tr><a href="addworkspace">Assigned by me</a></tr><br>
+        <table border="1" style="width: available">
+            <tr valign="top">
+                <td width="250px" NOWRAP>
+                    <h2 style="margin: 0px; padding: 5px 0px 0px 8px; height: 21px;	background-color: #1b4376; font-size: 14px; color: #FFFFFF;">
+                        Functions :
+                    </h2>
+                    <table border="1">
+                        <tbody>
+                            <tr><a href="addworkspace">Edit</a></tr><br>
+            <tr><a href="addworkspace">Delete</a></tr><br>
+        <tr><a href="addworkspace">View</a></tr><br>
+    <tr><a href="addworkspace">Assigned by me</a></tr><br>
 <tr><a href="addworkspace">Assigned to me</a></tr><br>
 </tbody>
 </table></td>
@@ -56,15 +67,31 @@
     <h2 style="margin: 0px; padding: 5px 0px 0px 8px; height: 21px;background-color: #1b4376; font-size: 14px; color: #FFFFFF;">
         TASK :</h2>
 <marquee style="font-size: 13px; color: red;">New Task</marquee>
-
-<table border="1" bgcolor="gainsboro">
-    <tbody><tr>
-    <input type="text" name="workspacename" value="${workspacename}"/><a href="delete/${workspacename}">delete</a>&nbsp;<a href="update/${workspacename}">update</a><br>
-    <form action="addtask" method="POST">
-        Add Task :<input type="text" name="taskname" /><input type="submit" value="AddTask" />
-    </form></tr>
-</tbody>
-</table></td></tr>
+    <c:if  test="${!empty workspacename}">
+    <form action="adduser" method="POST">
+        <table border="1">
+            <tbody>
+                <tr> <input type="text" name="workspacename" value="${workspacename}"/></tr>
+            <tr>
+                <td>
+                    select
+                    <c:forEach var="userdata" items="${userList}">
+                        <br> <INPUT NAME="userdata" TYPE="checkbox" VALUE="${userdata}">${userdata}
+                    </c:forEach>  
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Submit" /></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <form action="createTask" method="POST">
+        <!--Add Task :<input type="text" name="taskname" />-->
+        <input type="submit" value="AddTask" />
+    </form>
+</c:if>
+</td></tr>
 </table>
 
 <jsp:include page="footer.jsp"></jsp:include>

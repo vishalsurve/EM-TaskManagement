@@ -6,10 +6,15 @@ package com.em.emtaskmanagement.controller;
 
 import com.em.emtaskmanagement.dao.UserDAOImpl;
 import com.em.emtaskmanagement.model.User;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -52,5 +57,41 @@ public class UserController {
         
         userDAOImpl.saveUser(user);
         return "welcome";
+    }
+    
+    
+    @RequestMapping(value = "edit/adduser", method = RequestMethod.POST)
+    public String addUserEdit(User user) {
+
+        userDAOImpl.saveUser(user);
+        return "welcome";
+    }
+
+    @RequestMapping("/listuser")
+    public String listUSer(Map<String, Object> map, ModelMap modelMap) {
+        User user = null;
+        map.put("user", new User());
+        List<User> listUser = UserDAOImpl.listUser();
+        Iterator<User> iterator = listUser.iterator();
+        while (iterator.hasNext()) {
+            user = iterator.next();
+//            LOGGER.info("USER" + listUser);
+        }
+        map.put("userList", listUser);
+        return "listuser";
+    }
+
+    @RequestMapping("/edit/{userid}")
+    public String editUser(@PathVariable("userid") Integer userId, ModelMap modelMap) {
+
+        List list = UserDAOImpl.listUserAccordingID(userId);
+
+        modelMap.addAttribute("employeeobject", list);
+        return "edituser";
+    }
+
+    @RequestMapping(value = "/edituser")
+    public String editUser() {
+        return "edituser";
     }
 }

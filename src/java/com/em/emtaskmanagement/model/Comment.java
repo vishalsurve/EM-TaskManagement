@@ -28,8 +28,8 @@ public class Comment {
     @Column(name = "comment")
     private String comment;
     @Column(name = "commentdate")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date commentdate;
+//    @Temporal(javax.persistence.TemporalType.DATE)
+    private String commentdate;
     @Column(name = "taskid")
     private int taskid;
     @Column(name = "userid")
@@ -51,13 +51,15 @@ public class Comment {
         this.comment = comment;
     }
 
-    public Date getCommentdate() {
+    public String getCommentdate() {
         return commentdate;
     }
 
-    public void setCommentdate(Date commentdate) {
+    public void setCommentdate(String commentdate) {
         this.commentdate = commentdate;
     }
+
+   
 
     public int getTaskid() {
         return taskid;

@@ -65,6 +65,20 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
     }
 
     @Transactional
+    public Workspace getWorkspaceByName(String workspacename) {
+
+        Workspace workspace = null;
+        String hql = "from Workspace where workspacename='" + workspacename + "'";
+        sessionFactory.getCurrentSession().beginTransaction();
+        Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
+        Iterator iterate = createQuery.iterate();
+        while (iterate.hasNext()) {
+            workspace = (Workspace) iterate.next();
+        }
+        return workspace;
+    }
+
+    @Transactional
     public List<String> workspaceList() {
 
         List<String> workspaceList = new ArrayList();

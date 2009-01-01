@@ -68,13 +68,20 @@
         </property>
     </bean>
     
+    <bean id="adminDAO" class="com.em.emtaskmanagement.dao.AdminDAO">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
     <bean id="userDAOImpl" class="com.em.emtaskmanagement.dao.UserDAOImpl">
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
     
-    <bean id="" class="com.em.emtaskmanagement.dao.WorkspaceDAOImpl">
+    <bean id="workspaceDAOImpl" class="com.em.emtaskmanagement.dao.WorkspaceDAOImpl">
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
     
+    <bean id="commentDAO" class="com.em.emtaskmanagement.dao.CommentDAO">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
     
 </beans>

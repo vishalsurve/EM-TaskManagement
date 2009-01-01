@@ -40,6 +40,8 @@ public class User {
     private String password;
     @Column(name = "active_inactive", columnDefinition = "bigint default 0")
     private int active_inactive;
+    @Column(name = "isadmin")
+    private String isAdmin;
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "user_workspace",
             joinColumns = {
@@ -102,5 +104,13 @@ public class User {
 
     public void setWorkspace(Set<Workspace> workspace) {
         this.workspace = workspace;
+    }
+
+    public String getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
     }
 }

@@ -58,7 +58,18 @@ public class UserDAOImpl {
     @Transactional
     public int findUserIdbyEmail(String email) {
         
-        return 0;
+        int userid = 0;
+        String hql = "from User where email='" + email + "'";
+        sessionFactory.getCurrentSession().beginTransaction();
+        Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
+        Iterator iterate = createQuery.iterate();
+        while (iterate.hasNext()) {
+            User user = (User) iterate.next();
+            userid = user.getUserid();
+
+        }
+        sessionFactory.getCurrentSession().beginTransaction().commit();
+        return userid;
     }
 
     @Transactional

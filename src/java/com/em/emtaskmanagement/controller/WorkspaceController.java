@@ -33,6 +33,5 @@ public class WorkspaceController {
         Object attribute = session.getAttribute("UserName");
         String username = attribute.toString();
         
-        
     }
 }

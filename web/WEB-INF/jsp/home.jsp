@@ -22,7 +22,7 @@
                     <form action="addworkspace" method="POST">
                         Add Workspace :<input type="text" name="workspacename" /><input type="submit" value="add" />
                     </form>
-                    
+
                 </center></tr>
             <tr valign="top">
                 <td width="250px" NOWRAP>
@@ -44,12 +44,13 @@
         TASK :</h2>
 <marquee style="font-size: 13px; color: red;">New Task</marquee>
 
-<center><table border="1" bgcolor="gainsboro">
-        <tbody>
-
+<table border="1" bgcolor="gainsboro">
+        <tbody><tr>
+        <form action="addtask" method="POST">
+            Add Task :<input type="text" name="taskname" /><input type="submit" value="AddTask" />
+        </form></tr>
         </tbody>
-    </table>
-</center></td></tr>
+    </table></td></tr>
 </table>
 
 <jsp:include page="footer.jsp"></jsp:include>

@@ -4,8 +4,10 @@
  */
 package com.em.emtaskmanagement.controller;
 
+import com.em.emtaskmanagement.dao.UserDAOImpl;
 import com.em.emtaskmanagement.dao.WorkspaceDAOImpl;
 import com.em.emtaskmanagement.model.Workspace;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class WorkspaceController {
 
     @Autowired
     private WorkspaceDAOImpl workspaceDAOImpl;
+    @Resource
+    private UserDAOImpl userDAOImpl;
 
     @RequestMapping(value = "/workspace")
     public String workspace() {
@@ -32,6 +36,9 @@ public class WorkspaceController {
         HttpSession session = request.getSession(true);
         Object attribute = session.getAttribute("UserName");
         String username = attribute.toString();
-        
+        int findUserIdbyEmail = userDAOImpl.findUserIdbyEmail(username);
+        workspace.setOwnerid(findUserIdbyEmail);
+        workspaceDAOImpl.saveWorkspace(workspace);
+
     }
 }

@@ -66,17 +66,17 @@ public class WorkspaceController {
 
     }
 
-    @RequestMapping(value = "/workspacelist")
+    @RequestMapping(value = "/workspacelist", method = RequestMethod.POST)
     public @ResponseBody
-    JsonResponse listWorkspace1(BindingResult result) {
+    JsonResponse listWorkspace1() {//BindingResult result) {
         JsonResponse res = new JsonResponse();
         List<String> workspaceList = workspaceDAOImpl.workspaceList();
-        if (!result.hasErrors()) {
+        if (workspaceDAOImpl.workspaceList().size() > 0) //        if (!result.hasErrors()) {
+        {
             res.setResult(workspaceList);
             res.setStatus("SUCCESS");
         } else {
             res.setStatus("FAIL");
-            res.setResult(result.getAllErrors());
         }
         return res;
     }

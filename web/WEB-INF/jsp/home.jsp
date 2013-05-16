@@ -32,7 +32,9 @@
                     <td><input type="button" value="show Workspace" onclick="showList();"><br/></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><div id="info" class="success"></div><td>
+                    <td><div id="info" class="success">
+                            
+                        </div></td>
                 </tr>
             </table></center>
 

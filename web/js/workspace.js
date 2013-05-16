@@ -48,17 +48,18 @@ function showList() {
     $.ajax({
         type: "POST",
         url: contexPath + "/workspacelist",
-        data: "workspacename=" + workspacename,
         success: function(response) {
             // we have the response 
+          
+
             if (response.status == "SUCCESS") {
                 workspacename = "<ol>";
                 for (i = 0; i < response.result.length; i++) {
                     workspacename += "<br><li><b>Name</b> : " + response.result[i];
                 }
                 workspacename += "</ol>";
-                $('#info').html("User has been added to the list successfully. " + workspacename);
-                $('#workspacname').val('');
+                $('#info').html("List of WorkSpace: "+workspacename);
+//                $('#workspacname').val('');
                 $('#error').hide('slow');
                 $('#info').show('slow');
             } else {

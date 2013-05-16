@@ -33,6 +33,7 @@ public class UserDAOImpl {
 
     @Transactional
     public int login(String name, String pass) {
+        
         int count = 0;
         String email = null;
         String password = null;
@@ -66,7 +67,6 @@ public class UserDAOImpl {
         while (iterate.hasNext()) {
             User user = (User) iterate.next();
             userid = user.getUserid();
-
         }
         sessionFactory.getCurrentSession().beginTransaction().commit();
         return userid;

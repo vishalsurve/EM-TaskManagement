@@ -12,18 +12,32 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="CSS/styles.css" />
         <%--       <link rel="stylesheet" href="<c:url value="CSS/styles.css"/>"/> --%>
+        <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
+        <script type="text/javascript">
+            var contexPath = "<%=request.getContextPath()%>";
+        </script>
+        <script src="<%=request.getContextPath()%>/js/workspace.js"></script>
+        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/style/app.css">
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
 
-            <table border="1" style="width: available">
-                <tr><center>
-                    <!--<a href="workspace">Add Workspace</a>-->
-                    <form action="addworkspace" method="POST">
-                        Add Workspace :<input type="text" name="workspacename" /><input type="submit" value="add" />
-                    </form>
+        <center><table border="1" style="width: available">
+                <tr>
+                    <td colspan="2"><div id="error" class="error"></div></td>
+                </tr>
+                <tr>
+                    <td>Add Workspace :<input type="text" id="workspacename"><br/></td>
+                    <td><input type="button" value="Add Workspace" onclick="doAjaxPost();"><br/></td>
+                    <td><input type="button" value="show Workspace" onclick="showList();"><br/></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><div id="info" class="success"></div><td>
+                </tr>
+            </table></center>
 
-                </center></tr>
+
+        <table border="1" style="width: available">
             <tr valign="top">
                 <td width="250px" NOWRAP>
                     <h2 style="margin: 0px; padding: 5px 0px 0px 8px; height: 21px;	background-color: #1b4376; font-size: 14px; color: #FFFFFF;">
@@ -45,12 +59,12 @@
 <marquee style="font-size: 13px; color: red;">New Task</marquee>
 
 <table border="1" bgcolor="gainsboro">
-        <tbody><tr>
-        <form action="addtask" method="POST">
-            Add Task :<input type="text" name="taskname" /><input type="submit" value="AddTask" />
-        </form></tr>
-        </tbody>
-    </table></td></tr>
+    <tbody><tr>
+    <form action="addtask" method="POST">
+        Add Task :<input type="text" name="taskname" /><input type="submit" value="AddTask" />
+    </form></tr>
+</tbody>
+</table></td></tr>
 </table>
 
 <jsp:include page="footer.jsp"></jsp:include>

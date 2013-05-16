@@ -16,7 +16,7 @@
     <body>
         <jsp:include page="header.jsp"></jsp:include>
 
-        <img src="images/nature.jpg"  width="100%">
+        <img src="images/nature.jpg" height="800px" width="100%">
 <!--            <table border="1" style="width: available">
                 <tr><center>
                     <a href="addworkspace">Add Workspace</a>

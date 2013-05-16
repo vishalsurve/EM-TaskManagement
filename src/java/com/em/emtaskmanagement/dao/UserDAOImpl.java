@@ -33,7 +33,7 @@ public class UserDAOImpl {
 
     @Transactional
     public int login(String name, String pass) {
-        
+
         int count = 0;
         String email = null;
         String password = null;
@@ -58,7 +58,7 @@ public class UserDAOImpl {
 
     @Transactional
     public int findUserIdbyEmail(String email) {
-        
+
         int userid = 0;
         String hql = "from User where email='" + email + "'";
         sessionFactory.getCurrentSession().beginTransaction();
@@ -74,9 +74,13 @@ public class UserDAOImpl {
 
     @Transactional
     public void saveUser(User user) {
-
+        String firstname = user.getFirstname();
+        String email = user.getEmail();
         sessionFactory.getCurrentSession().beginTransaction();
-        sessionFactory.getCurrentSession().save(user);
+        if (firstname != "" && email != "") {
+            sessionFactory.getCurrentSession().save(user);
+        } else {
+        }
         sessionFactory.getCurrentSession().beginTransaction().commit();
     }
 }

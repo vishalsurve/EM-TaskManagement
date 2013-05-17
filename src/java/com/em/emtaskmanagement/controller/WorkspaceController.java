@@ -7,6 +7,7 @@ package com.em.emtaskmanagement.controller;
 import com.em.emtaskmanagement.dao.UserDAOImpl;
 import com.em.emtaskmanagement.dao.WorkspaceDAOImpl;
 import com.em.emtaskmanagement.model.JsonResponse;
+import com.em.emtaskmanagement.model.User;
 import com.em.emtaskmanagement.model.Workspace;
 import java.util.List;
 import javax.annotation.Resource;
@@ -81,10 +82,26 @@ public class WorkspaceController {
         return res;
     }
 
-    @RequestMapping(value = "/workspacename/{workspacename}", method = RequestMethod.GET)
-    public String getWorkspace(@PathVariable("workspacename") String workspacename, ModelMap modelMap) {
+    @RequestMapping(value = "workspacename/{workspacename}", method = RequestMethod.GET)
+    public String getWorkspace(@PathVariable("workspacename") String workspacename, ModelMap modelMap, HttpServletRequest request) {
         
+        HttpSession session = request.getSession(true);
+        session.setAttribute("workspacename", request);
+        List<String> allUser = userDAOImpl.getAllUser();
+        modelMap.put("userList", allUser);
         modelMap.put("workspacename", workspacename);
+
         return "home";
+    }
+
+    @RequestMapping(value = "workspacename/adduser", method = RequestMethod.POST)
+    public void addUser(HttpServletRequest request, Workspace workspace, User user) {
+
+        String workspacename = request.getParameter("workspacename");
+        String[] userlist = request.getParameterValues("userdata");
+
+        int workspaceIdByName = workspaceDAOImpl.getWorkspaceIdByName(workspacename);
+        List UserId = userDAOImpl.getUserIdByName(userlist);
+        workspaceDAOImpl.addUserList(workspaceIdByName, UserId);
     }
 }

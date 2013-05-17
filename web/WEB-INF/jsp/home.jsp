@@ -59,14 +59,31 @@
     <h2 style="margin: 0px; padding: 5px 0px 0px 8px; height: 21px;background-color: #1b4376; font-size: 14px; color: #FFFFFF;">
         TASK :</h2>
 <marquee style="font-size: 13px; color: red;">New Task</marquee>
-
-<table border="1" bgcolor="gainsboro">
-    <tbody><tr><h1>${workspacename}</h1>
+<c:if  test="${!empty workspacename}">
+<form action="adduser" method="POST">
+    <table border="1">
+        <tbody>
+            <tr> <input type="text" name="workspacename" value="${workspacename}"/></tr>
+        <tr>
+            <td>
+                select
+                <c:forEach var="userdata" items="${userList}">
+                    <br> <INPUT NAME="userdata" TYPE="checkbox" VALUE="${userdata}">${userdata}
+                </c:forEach>  
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Submit" /></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
 <form action="addtask" method="POST">
-    Add Task :<input type="text" name="taskname" /><input type="submit" value="AddTask" />
-</form></tr>
-</tbody>
-</table></td></tr>
+    Add Task :<input type="text" name="taskname" />
+    <input type="submit" value="AddTask" />
+</form>
+</c:if>
+</td></tr>
 </table>
 
 <jsp:include page="footer.jsp"></jsp:include>

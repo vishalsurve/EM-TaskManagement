@@ -5,6 +5,7 @@
 package com.em.emtaskmanagement.dao;
 
 import com.em.emtaskmanagement.model.Workspace;
+import java.util.List;
 
 /**
  *
@@ -12,5 +13,9 @@ import com.em.emtaskmanagement.model.Workspace;
  */
 public interface WorkspaceDAO {
 
+    public int getWorkspaceIdByName(String name);
+
     public void saveWorkspace(Workspace workspace);
+
+    public void addUserList(int workspaceid, List UserId);
 }

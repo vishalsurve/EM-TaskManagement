@@ -5,6 +5,7 @@
 package com.em.emtaskmanagement.dao;
 
 import com.em.emtaskmanagement.model.User;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.Query;
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Vishal
  */
 @Repository
-public class UserDAOImpl {
+public class UserDAOImpl implements UserDAO{
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -73,6 +74,31 @@ public class UserDAOImpl {
     }
 
     @Transactional
+    public List getUserIdByName(String[] userlist) {
+
+        int userid;
+
+        List list = new ArrayList();
+        for (String name : userlist) {
+            String username = name;
+
+            String hql = "from User where firstname='" + username + "'";
+            sessionFactory.getCurrentSession().beginTransaction();
+            Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
+            Iterator iterate = createQuery.iterate();
+
+            while (iterate.hasNext()) {
+                User user = (User) iterate.next();
+                userid = user.getUserid();
+                list.add(user);
+            }
+            sessionFactory.getCurrentSession().beginTransaction().commit();
+        }
+
+        return list;
+    }
+
+    @Transactional
     public void saveUser(User user) {
         String firstname = user.getFirstname();
         String email = user.getEmail();
@@ -82,5 +108,20 @@ public class UserDAOImpl {
         } else {
         }
         sessionFactory.getCurrentSession().beginTransaction().commit();
+    }
+
+    public List<String> getAllUser() {
+        List<String> list = new ArrayList<String>();
+        String hql = "from User";
+        sessionFactory.getCurrentSession().beginTransaction();
+        Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
+        Iterator iterate = createQuery.iterate();
+        while (iterate.hasNext()) {
+            User user = (User) iterate.next();
+            String firstname = user.getFirstname();
+            list.add(firstname);
+        }
+        sessionFactory.getCurrentSession().beginTransaction().commit();
+        return list;
     }
 }

@@ -50,15 +50,29 @@ function showList() {
         url: contexPath + "/workspacelist",
         success: function(response) {
             // we have the response 
-          
+
 
             if (response.status == "SUCCESS") {
                 workspacename = "<ol>";
+                var mainDiv = document.createElement('div');
                 for (i = 0; i < response.result.length; i++) {
-                    workspacename += "<br><li><b>Name</b> : " + response.result[i];
+                    var url = "http://www.google.co.in/";
+                    var li = document.createElement('li');
+                    mainDiv.appendChild(li);
+                    var namDiv = document.createElement('div');
+                    namDiv.innerHTML = 'Name : ';
+                    li.appendChild(namDiv);
+                    var a = document.createElement('a');
+                    a.innerHTML = response.result[i];
+                    a.href = url;
+                    li.appendChild(a);
+                    workspacename += "<br><li><b>Name</b> : " + response.result[i] + "</li>" + "<a href=" + url + ">GO Link</a>";
+//                    workspacename += "<br><li><b>Name</b><a href="+url+">" + response.result[i] + "</a></li>";
                 }
                 workspacename += "</ol>";
-                $('#info').html("List of WorkSpace: "+workspacename);
+//                $('#info').html("List of WorkSpace: " + workspacename);
+                $('#info').html("List of WorkSpace: ");
+                $('#info').append(mainDiv);
 //                $('#workspacname').val('');
                 $('#error').hide('slow');
                 $('#info').show('slow');

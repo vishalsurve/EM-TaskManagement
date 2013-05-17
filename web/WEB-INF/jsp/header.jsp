@@ -11,18 +11,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="CSS/styles.css" />
         <title>JSP Page</title>
-
-        <script type="text/javascript">
-            function logout() {
-                var x;
-                x = alert("You are logout");
-
-            }
-
-            function login() {
-
-            }
-        </script>
     </head>
     <body>
         <header>
@@ -32,7 +20,7 @@
                             <a href="aboutus" style="color: #FFFFFF">About Us</a>&nbsp;&nbsp;
                             <a href="saveuser" style="color: #FFFFFF">Signup</a>&nbsp;&nbsp;
                             <a href="login" style="color: #FFFFFF">Login</a>&nbsp;&nbsp;
-                            <input type="button" value="Log Out" onclick="logout();" style="color: skyblue" />
+                            <a href="logout" style="color: #FFFFFF">LogOut</a>&nbsp;&nbsp;
                             <a href="#"></a>
                         </div><br>
                     </td></tr>

@@ -33,7 +33,7 @@
                 </tr>
                 <tr>
                     <td><div id="info" class="success">
-                            
+
                         </div></td>
                 </tr>
             </table></center>
@@ -61,10 +61,10 @@
 <marquee style="font-size: 13px; color: red;">New Task</marquee>
 
 <table border="1" bgcolor="gainsboro">
-    <tbody><tr>
-    <form action="addtask" method="POST">
-        Add Task :<input type="text" name="taskname" /><input type="submit" value="AddTask" />
-    </form></tr>
+    <tbody><tr><h1>${workspacename}</h1>
+<form action="addtask" method="POST">
+    Add Task :<input type="text" name="taskname" /><input type="submit" value="AddTask" />
+</form></tr>
 </tbody>
 </table></td></tr>
 </table>

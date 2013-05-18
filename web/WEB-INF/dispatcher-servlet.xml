@@ -15,7 +15,7 @@
     <mvc:annotation-driven/>
     <context:annotation-config/>
     <context:property-placeholder location="classpath:jdbc.properties"/>
-     <context:component-scan base-package="com.em.emtaskmanagement"/>
+    <context:component-scan base-package="com.em.emtaskmanagement"/>
     
     <!--<mvc:resources mapping="/CSS/**" location="/CSS/" />-->
 

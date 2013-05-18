@@ -90,3 +90,106 @@ function showList() {
         }
     });
 }
+
+
+
+
+function AssignedByMe() {
+
+    $.ajax({
+        type: "POST",
+        url: contexPath + "/assignedbyme",
+        success: function(response) {
+            // we have the response 
+
+
+            if (response.status == "SUCCESS") {
+                workspacename = "<ol>";
+                var mainDiv = document.createElement('div');
+                for (i = 0; i < response.result.length; i++) {
+                    var url = "http://www.google.co.in/";
+                    var li = document.createElement('li');
+                    mainDiv.appendChild(li);
+                    var namDiv = document.createElement('div');
+                    namDiv.innerHTML = '';
+                    li.appendChild(namDiv);
+                    var a = document.createElement('a');
+                    a.innerHTML = response.result[i];
+                    a.href = url;
+                    li.appendChild(a);
+//                    workspacename += "<br><li><b>Name</b> : " + response.result[i] + "</li>" + "<a href=" + url + ">GO Link</a>";
+//                    workspacename += "<br><li><b>Name</b><a href="+url+">" + response.result[i] + "</a></li>";
+                }
+                workspacename += "</ol>";
+//                $('#info').html("List of WorkSpace: " + workspacename);
+                $('#info').html("List of Task: ");
+                $('#info').append(mainDiv);
+//                $('#workspacname').val('');
+                $('#error').hide('slow');
+                $('#info').show('slow');
+            } else {
+                errorInfo = "";
+                for (i = 0; i < response.result.length; i++) {
+                    errorInfo += "<br>" + (i + 1) + ". " + response.result[i].code;
+                }
+                $('#error').html("Please correct following errors: " + errorInfo);
+                $('#info').hide('slow');
+                $('#error').show('slow');
+            }
+        },
+        error: function(e) {
+            alert('Error: ' + e);
+        }
+    });
+}
+
+
+
+function AssignedToMe() {
+
+    $.ajax({
+        type: "POST",
+        url: contexPath + "/assignedtome",
+        success: function(response) {
+            // we have the response 
+
+
+            if (response.status == "SUCCESS") {
+                workspacename = "<ol>";
+                var mainDiv = document.createElement('div');
+                for (i = 0; i < response.result.length; i++) {
+                    var url = "http://www.google.co.in/";
+                    var li = document.createElement('li');
+                    mainDiv.appendChild(li);
+                    var namDiv = document.createElement('div');
+                    namDiv.innerHTML = '';
+                    li.appendChild(namDiv);
+                    var a = document.createElement('a');
+                    a.innerHTML = response.result[i];
+                    a.href = url;
+                    li.appendChild(a);
+//                    workspacename += "<br><li><b>Name</b> : " + response.result[i] + "</li>" + "<a href=" + url + ">GO Link</a>";
+//                    workspacename += "<br><li><b>Name</b><a href="+url+">" + response.result[i] + "</a></li>";
+                }
+                workspacename += "</ol>";
+//                $('#info').html("List of WorkSpace: " + workspacename);
+                $('#info').html("List of Task: ");
+                $('#info').append(mainDiv);
+//                $('#workspacname').val('');
+                $('#error').hide('slow');
+                $('#info').show('slow');
+            } else {
+                errorInfo = "";
+                for (i = 0; i < response.result.length; i++) {
+                    errorInfo += "<br>" + (i + 1) + ". " + response.result[i].code;
+                }
+                $('#error').html("Please correct following errors: " + errorInfo);
+                $('#info').hide('slow');
+                $('#error').show('slow');
+            }
+        },
+        error: function(e) {
+            alert('Error: ' + e);
+        }
+    });
+}

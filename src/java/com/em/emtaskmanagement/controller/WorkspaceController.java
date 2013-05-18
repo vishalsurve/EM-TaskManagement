@@ -54,7 +54,6 @@ public class WorkspaceController {
         JsonResponse res = new JsonResponse();
         List<String> workspaceList = workspaceDAOImpl.workspaceList();
 
-
         ValidationUtils.rejectIfEmpty(result, "workspacename", "Name can not be empty.");
         if (!result.hasErrors()) {
             res.setResult(workspaceList);
@@ -84,7 +83,7 @@ public class WorkspaceController {
 
     @RequestMapping(value = "workspacename/{workspacename}", method = RequestMethod.GET)
     public String getWorkspace(@PathVariable("workspacename") String workspacename, ModelMap modelMap, HttpServletRequest request) {
-        
+
         HttpSession session = request.getSession(true);
         session.setAttribute("workspacename", workspacename);
         List<String> allUser = userDAOImpl.getAllUser();
@@ -101,8 +100,25 @@ public class WorkspaceController {
         String[] userlist = request.getParameterValues("userdata");
 
         int workspaceIdByName = workspaceDAOImpl.getWorkspaceIdByName(workspacename);
-        
+
         List UserId = userDAOImpl.getUserIdByName(userlist);
         workspaceDAOImpl.addUserList(workspaceIdByName, UserId);
+    }
+
+    @RequestMapping(value = "/deleteworkspace")
+    public String deleteWorkspace() {
+
+        int workspaceid = 6;
+        workspaceDAOImpl.deleteWorkspace(workspaceid);
+        return "home";
+    }
+
+    @RequestMapping(value = "/updateworkspace", method = RequestMethod.POST)
+    public String updateWorkspace(HttpServletRequest request) {
+
+        String workspacename = request.getParameter("workspacename");
+        int workspaceid = 6;
+        workspaceDAOImpl.updateWorkspace(workspaceid, workspacename);
+        return "home";
     }
 }

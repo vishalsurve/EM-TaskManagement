@@ -19,5 +19,13 @@ public interface WorkspaceDAO {
 
     public void saveWorkspace(Workspace workspace);
 
+    public List<String> workspaceList();
+
     public void addUserList(int workspaceid, List UserId);
+
+    public List<String> showActiveWorkspace();
+
+    public void deleteWorkspace(int workspaceid);
+
+    public void updateWorkspace(int workspaceid, String workspacename);
 }

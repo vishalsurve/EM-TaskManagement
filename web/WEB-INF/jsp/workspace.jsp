@@ -11,7 +11,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="CSS/styles.css" />
-        <title>JSP Page</title>
+        <%--       <link rel="stylesheet" href="<c:url value="CSS/styles.css"/>"/> --%>
+        <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
+        <script type="text/javascript">
+            var contexPath = "<%=request.getContextPath()%>";
+        </script>
+        <script src="<%=request.getContextPath()%>/js/workspace.js"></script>
+        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/style/app.css">
     </head>
     <body>
         <header>
@@ -54,42 +60,58 @@
                         Functions :
                     </h2>
                     <table border="1">
-                        <tbody>
-                            <tr><a href="addworkspace">Edit</a></tr><br>
-            <tr><a href="addworkspace">Delete</a></tr><br>
-        <tr><a href="addworkspace">View</a></tr><br>
-    <tr><a href="addworkspace">Assigned by me</a></tr><br>
-<tr><a href="addworkspace">Assigned to me</a></tr><br>
-</tbody>
+                        <tbody> <c:if  test="${!empty workspacename}">
+                                <!--                            <tr><a href="addworkspace">Edit</a></tr><br>
+                                            <tr><a href="addworkspace">Delete</a></tr><br>-->
+                                <tr> <form action="updateworkspace" method="POST">
+                                <td>  <input type="text" name="workspacename" /></td>
+                                <td>   <input type="submit" value="UpdateWorkspaceName" ><br/></td>
+                            </form></tr>
+
+                <tr> <form action="deleteworkspace">
+                    <input type="submit" value="DeleteWorkspace"><br/> 
+                </form></tr>
+
+            <tr><a href="addworkspace">View</a></tr><br>
+        <tr><input type="submit" value="AssignedByMe" onclick="AssignedByMe();"><br>
+        <td><div id="info" class="success"></div></td>
+    </tr>
+
+    <tr><input type="submit" value="AssignedToMe" onclick="AssignedToMe();"><br></tr>
+
+    </tbody></c:if>
 </table></td>
 
 <td width="1600px" NOWRAP>
     <h2 style="margin: 0px; padding: 5px 0px 0px 8px; height: 21px;background-color: #1b4376; font-size: 14px; color: #FFFFFF;">
         TASK :</h2>
 <marquee style="font-size: 13px; color: red;">New Task</marquee>
-    <c:if  test="${!empty workspacename}">
-    <form action="adduser" method="POST">
-        <table border="1">
-            <tbody>
-                <tr> <input type="text" name="workspacename" value="${workspacename}"/></tr>
-            <tr>
-                <td>
-                    select
-                    <c:forEach var="userdata" items="${userList}">
-                        <br> <INPUT NAME="userdata" TYPE="checkbox" VALUE="${userdata}">${userdata}
-                    </c:forEach>  
-                </td>
+<c:if  test="${!empty workspacename}">
+<form action="adduser" method="POST">
+    <table border="1">
+        <tbody> <tr>
+                <td colspan="2"><div id="error" class="error"></div></td>
             </tr>
-            <tr>
-                <td><input type="submit" value="Submit" /></td>
-            </tr>
-            </tbody>
-        </table>
-    </form>
-    <form action="createTask" method="POST">
-        <!--Add Task :<input type="text" name="taskname" />-->
-        <input type="submit" value="AddTask" />
-    </form>
+            <tr> <input type="text" name="workspacename" value="${workspacename}"/></tr>
+        <tr>
+            <td>
+                select
+                <c:forEach var="userdata" items="${userList}">
+                    <br> <INPUT NAME="userdata" TYPE="checkbox" VALUE="${userdata}">${userdata}
+                </c:forEach>  
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Submit" /></td>
+        </tr>
+
+        </tbody>
+    </table>
+</form>
+<form action="createTask" method="POST">
+    <!--Add Task :<input type="text" name="taskname" />-->
+    <input type="submit" value="AddTask" />
+</form>
 </c:if>
 </td></tr>
 </table>

@@ -10,18 +10,15 @@ import com.em.emtaskmanagement.dao.WorkspaceDAOImpl;
 import com.em.emtaskmanagement.model.JsonResponse;
 import com.em.emtaskmanagement.model.Task;
 import com.em.emtaskmanagement.model.Workspace;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
-import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,10 +43,9 @@ public class TaskController {
         return "savetask";
     }
 
-    @RequestMapping(value = "addTask", method = RequestMethod.POST)
+    @RequestMapping(value = "/addTask", method = RequestMethod.POST)
     public @ResponseBody
-    JsonResponse listWorkspace(Task task, HttpServletRequest request, BindingResult result) {
-
+    JsonResponse addTask(Task task, HttpServletRequest request, BindingResult result) {
 
         HttpSession session = request.getSession(true);
         Object attribute = session.getAttribute("UserName");
@@ -68,10 +64,10 @@ public class TaskController {
         List<String> taskList = taskDAOImpl.taskList();
 
         ValidationUtils.rejectIfEmpty(result, "taskname", "Task Name can not be empty.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(result, "startdate", "Start Date can not be empty.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(result, "enddate", "End Date can not be empty.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(result, "priority", "Priority can not be empty.");
-        if (!result.hasErrors()) {
+        ValidationUtils.rejectIfEmpty(result, "startdate", "Start Date can not be empty.");
+        ValidationUtils.rejectIfEmpty(result, "enddate", "End Date can not be empty.");
+        ValidationUtils.rejectIfEmpty(result, "priority", "Priority can not be empty.");
+         if (!result.hasErrors()) {
             res.setResult(taskList);
             res.setStatus("SUCCESS");
         } else {
@@ -86,7 +82,7 @@ public class TaskController {
     JsonResponse listTask() {
         JsonResponse res = new JsonResponse();
         List<String> taskList = taskDAOImpl.taskList();
-        if (taskDAOImpl.taskList().size() > 0) //        if (!result.hasErrors()) {
+        if (taskList.size() > 0)
         {
             res.setResult(taskList);
             res.setStatus("SUCCESS");
@@ -95,4 +91,48 @@ public class TaskController {
         }
         return res;
     }
+
+    @RequestMapping(value = "/assignedbyme", method = RequestMethod.POST)
+    public @ResponseBody
+    JsonResponse assignedByMe(HttpServletRequest request) {
+
+        HttpSession session = request.getSession(true);
+        String username = (String) session.getAttribute("UserName");
+        int userid = userDAOImpl.findUserIdbyEmail(username);
+
+        JsonResponse res = new JsonResponse();
+        List<String> taskname = taskDAOImpl.taskAssignedByMe(userid);
+        if (taskname.size() > 0) {
+            res.setResult(taskname);
+            res.setStatus("SUCCESS");
+        } else {
+            res.setStatus("FAIL");
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/assignedtome", method = RequestMethod.POST)
+    public @ResponseBody
+    JsonResponse assignedToMe(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        String username = (String) session.getAttribute("UserName");
+        int userid = userDAOImpl.findUserIdbyEmail(username);
+
+        JsonResponse res = new JsonResponse();
+        List<String> taskname = taskDAOImpl.taskAssignedToMe(userid);
+        if (taskname.size() > 0) {
+            res.setResult(taskname);
+            res.setStatus("SUCCESS");
+        } else {
+            res.setStatus("FAIL");
+        }
+        return res;
+    }
+
+//    @RequestMapping("/taskview/{taskname}")
+//    public String taskView(@PathVariable("taskname") String taskname, ModelMap modelMap) {
+//        List<Task> taskList = TaskDAOImpl.getTask(taskname);
+//        modelMap.addAttribute("taskList", taskList);
+//        return "taskview";
+//    }
 }

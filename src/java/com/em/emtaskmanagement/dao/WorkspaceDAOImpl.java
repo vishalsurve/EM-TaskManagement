@@ -78,8 +78,24 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
         return workspace;
     }
 
+//    @Transactional
+//    public List<String> workspaceList() {
+//
+//        List<String> workspaceList = new ArrayList();
+//        String hql = "from Workspace";
+//        sessionFactory.getCurrentSession().beginTransaction();
+//        Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
+//        //        List workspaceList = createQuery.list();
+//        Iterator iterate = createQuery.iterate();
+//        while (iterate.hasNext()) {
+//            Workspace workspace = (Workspace) iterate.next();
+//            String workspacename = workspace.getWorkspacename();
+//            workspaceList.add(workspacename);
+//        }
+//        return workspaceList;
+//    }
     @Transactional
-    public List<String> workspaceList() {
+    public List<String> showActiveWorkspace() {
 
         List<String> workspaceList = new ArrayList();
         String hql = "from Workspace";
@@ -96,6 +112,46 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
     }
 
     @Transactional
+    public List<String> workspaceList() {
+
+        List<String> workspaceList = new ArrayList();
+        String hql = "from Workspace where active_inactive=0";
+        sessionFactory.getCurrentSession().beginTransaction();
+        Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
+        //        List workspaceList = createQuery.list();
+        Iterator iterate = createQuery.iterate();
+        while (iterate.hasNext()) {
+            Workspace workspace = (Workspace) iterate.next();
+            String workspacename = workspace.getWorkspacename();
+            workspaceList.add(workspacename);
+        }
+        return workspaceList;
+    }
+
+    @Transactional
+    public void deleteWorkspace(int workspaceid) {
+
+        sessionFactory.getCurrentSession().beginTransaction();
+        Workspace workspace = (Workspace) sessionFactory.getCurrentSession().load(Workspace.class, workspaceid);
+        workspace.setActive_inactive(1);
+        sessionFactory.getCurrentSession().saveOrUpdate(workspace);
+        sessionFactory.getCurrentSession().getTransaction().commit();
+    }
+
+    @Transactional
+    public void updateWorkspace(int workspaceid, String workspacename) {
+
+        sessionFactory.getCurrentSession().beginTransaction();
+        if (workspacename != "") {
+            Workspace workspace = (Workspace) sessionFactory.getCurrentSession().load(Workspace.class, workspaceid);
+            workspace.setWorkspacename(workspacename);
+            sessionFactory.getCurrentSession().saveOrUpdate(workspace);
+        } else {
+        }
+        sessionFactory.getCurrentSession().getTransaction().commit();
+    }
+
+    @Transactional
     public void addUserList(int workspaceid, List UserId) {
 
         User user = null;
@@ -104,9 +160,10 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
         sessionFactory.getCurrentSession().beginTransaction();
         Workspace workspace = (Workspace) sessionFactory.getCurrentSession().load(Workspace.class, workspaceid);
         Set<Workspace> workspaces = new HashSet<Workspace>();
-        workspaces.add(workspace);
 
+        workspaces.add(workspace);
         Iterator iterator = UserId.iterator();
+
         while (iterator.hasNext()) {
             User object = (User) iterator.next();
             userid = object.getUserid();
@@ -115,6 +172,8 @@ public class WorkspaceDAOImpl implements WorkspaceDAO {
             user.setWorkspace(workspaces);
             sessionFactory.getCurrentSession().save(user);
         }
-        sessionFactory.getCurrentSession().beginTransaction().commit();
+
+        sessionFactory.getCurrentSession()
+                .beginTransaction().commit();
     }
 }

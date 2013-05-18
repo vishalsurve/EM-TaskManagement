@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,6 +34,7 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Transactional
+    @Override
     public void saveTask(Task task) {
         String taskname = task.getTaskname();
         sessionFactory.getCurrentSession().beginTransaction();
@@ -59,4 +61,46 @@ public class TaskDAOImpl implements TaskDAO {
         }
         return taskList;
     }
+
+    @Transactional
+    @Override
+    public List<String> taskAssignedByMe(int ownerid) {
+
+        List<String> list = new ArrayList<String>();
+        String hql = "from Task where ownerid=" + ownerid;
+        sessionFactory.getCurrentSession().beginTransaction();
+        Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
+        Iterator iterate = createQuery.iterate();
+        while (iterate.hasNext()) {
+            Task task = (Task) iterate.next();
+            String taskname = task.getTaskname();
+            list.add(taskname);
+        }
+        sessionFactory.getCurrentSession().getTransaction().commit();
+        return list;
+    }
+
+    @Transactional
+    @Override
+    public List<String> taskAssignedToMe(int userid) {
+
+        List<String> list = new ArrayList<String>();
+        String sql = "select taskname from task t inner join task_user tu on tu.task_id = t.taskid inner join user u on u.userid = tu.user_id where u.userid=" + userid;
+        sessionFactory.getCurrentSession().beginTransaction();
+        SQLQuery createSQLQuery = sessionFactory.getCurrentSession().createSQLQuery(sql);
+        List list1 = createSQLQuery.list();
+        sessionFactory.getCurrentSession().getTransaction().commit();
+        return list1;
+
+    }
+
+//    @Transactional
+//    public static List<Task> getTask(String taskName) {
+//        String hql = "from Task where taskname = " + taskName;
+//        sessionFactory.getCurrentSession().beginTransaction();
+//        Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
+//        List<Task> tasklist = createQuery.list();
+//        sessionFactory.getCurrentSession().beginTransaction().commit();
+//        return tasklist;
+//    }
 }

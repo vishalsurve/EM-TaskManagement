@@ -147,8 +147,10 @@ public class UserDAOImpl implements UserDAO {
     public List<String> getUserByWorkspace(int workspaceId) {
 
         String hql = "select firstname from user u inner join user_workspace uw on uw.user_id = u.userid inner join workspace w on w.workspaceid = uw.workspace_id where w.workspaceid=" + workspaceId;
+        sessionFactory.getCurrentSession().beginTransaction();
         SQLQuery createSQLQuery = sessionFactory.getCurrentSession().createSQLQuery(hql);
         List username = createSQLQuery.list();
+        sessionFactory.getCurrentSession().getTransaction().commit();
         return username;
     }
 }

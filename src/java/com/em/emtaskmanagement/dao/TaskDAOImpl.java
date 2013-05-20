@@ -5,9 +5,13 @@
 package com.em.emtaskmanagement.dao;
 
 import com.em.emtaskmanagement.model.Task;
+import com.em.emtaskmanagement.model.User;
+import com.em.emtaskmanagement.model.Workspace;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
@@ -103,4 +107,39 @@ public class TaskDAOImpl implements TaskDAO {
 //        sessionFactory.getCurrentSession().beginTransaction().commit();
 //        return tasklist;
 //    }
+    public int getTaskIdByName(String taskname) {
+        int taskid = 0;
+        String hql = "from Task where taskname='" + taskname + "'";
+        sessionFactory.getCurrentSession().beginTransaction();
+        Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
+        Iterator iterate = createQuery.iterate();
+        while (iterate.hasNext()) {
+            Task task = (Task) iterate.next();
+            taskid = task.getTaskid();
+        }
+        sessionFactory.getCurrentSession().getTransaction().commit();
+        return taskid;
+    }
+
+    public void addUserList(int taskId, List UserId) {
+
+        User user = null;
+        int userid = 0;
+
+        sessionFactory.getCurrentSession().beginTransaction();
+        Task task = (Task) sessionFactory.getCurrentSession().load(Task.class, taskId);
+        Set<User> users = new HashSet<User>();
+
+        Iterator iterator = UserId.iterator();
+        while (iterator.hasNext()) {
+            User object = (User) iterator.next();
+            userid = object.getUserid();
+            user = (User) sessionFactory.getCurrentSession().load(User.class, userid);
+            users.add(user);
+        }
+        task.setUser(users);
+        sessionFactory.getCurrentSession().save(task);
+        
+        sessionFactory.getCurrentSession().beginTransaction().commit();
+    }
 }

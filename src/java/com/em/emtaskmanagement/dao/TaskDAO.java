@@ -15,9 +15,13 @@ public interface TaskDAO {
 
     void saveTask(Task task);
 
+    public int getTaskIdByName(String taskname);
+
     public List<String> taskList();
 
     public List<String> taskAssignedByMe(int ownerid);
 
     public List<String> taskAssignedToMe(int userid);
+
+    public void addUserList(int taskIdByName, List UserId);
 }

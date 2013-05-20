@@ -118,5 +118,13 @@ public class Task {
 
     public void setWorkspace(Workspace workspace) {
         this.workspace = workspace;
-    }   
+    }
+
+    public Set<User> getUser() {
+        return user;
+    }
+
+    public void setUser(Set<User> user) {
+        this.user = user;
+    }
 }

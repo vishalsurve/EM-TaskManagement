@@ -9,6 +9,7 @@ import com.em.emtaskmanagement.dao.UserDAOImpl;
 import com.em.emtaskmanagement.dao.WorkspaceDAOImpl;
 import com.em.emtaskmanagement.model.JsonResponse;
 import com.em.emtaskmanagement.model.Task;
+import com.em.emtaskmanagement.model.User;
 import com.em.emtaskmanagement.model.Workspace;
 import java.util.List;
 import javax.annotation.Resource;
@@ -135,7 +136,7 @@ public class TaskController {
 //        return "taskview";
 //    }
 
-    @RequestMapping(value = "workspacename/taskname/{taskname}", method = RequestMethod.POST)
+    @RequestMapping(value = "workspacename/taskname/{taskname}", method = RequestMethod.GET)
     public String getTask(@PathVariable("taskname") String taskname, ModelMap modelMap, HttpServletRequest request) {
 
         HttpSession session = request.getSession(true);
@@ -147,5 +148,17 @@ public class TaskController {
         modelMap.put("taskname", taskname);
 
         return "taskview";
+    }
+
+    @RequestMapping(value = "workspacename/taskname/adduserintask", method = RequestMethod.POST)
+    public void addUser(HttpServletRequest request, Task task, User user) {
+
+        String taskname = request.getParameter("taskname");
+        String[] userlist = request.getParameterValues("userdata");
+
+        int taskIdByName = taskDAOImpl.getTaskIdByName(taskname);
+
+        List UserId = userDAOImpl.getUserIdByName(userlist);
+        taskDAOImpl.addUserList(taskIdByName, UserId);
     }
 }

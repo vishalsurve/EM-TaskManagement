@@ -22,4 +22,6 @@ public interface UserDAO {
     public void saveUser(User user);
 
     public List<String> getAllUser();
+
+    public List<String> getUserByWorkspace(int workspaceId);
 }

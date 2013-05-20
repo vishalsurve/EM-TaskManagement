@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Vishal
  */
 @Repository
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
 
     @Autowired
     private static SessionFactory sessionFactory;
@@ -110,7 +111,7 @@ public class UserDAOImpl implements UserDAO{
         sessionFactory.getCurrentSession().beginTransaction().commit();
     }
 
-    public  List<String> getAllUser() {
+    public List<String> getAllUser() {
         List<String> list = new ArrayList<String>();
         String hql = "from User";
         sessionFactory.getCurrentSession().beginTransaction();
@@ -124,9 +125,8 @@ public class UserDAOImpl implements UserDAO{
         sessionFactory.getCurrentSession().beginTransaction().commit();
         return list;
     }
-    
-    
-     public static List listUser() {
+
+    public static List listUser() {
         sessionFactory.getCurrentSession().beginTransaction();
         String hql = "from User";
         Query createQuery = sessionFactory.getCurrentSession().createQuery(hql);
@@ -142,5 +142,13 @@ public class UserDAOImpl implements UserDAO{
 
         List<User> users = createQuery.list();
         return users;
+    }
+
+    public List<String> getUserByWorkspace(int workspaceId) {
+
+        String hql = "select firstname from user u inner join user_workspace uw on uw.user_id = u.userid inner join workspace w on w.workspaceid = uw.workspace_id where w.workspaceid=" + workspaceId;
+        SQLQuery createSQLQuery = sessionFactory.getCurrentSession().createSQLQuery(hql);
+        List username = createSQLQuery.list();
+        return username;
     }
 }

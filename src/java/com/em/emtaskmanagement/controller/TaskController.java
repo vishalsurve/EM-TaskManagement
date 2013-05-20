@@ -47,6 +47,11 @@ public class TaskController {
     public @ResponseBody
     JsonResponse addTask(Task task, HttpServletRequest request, BindingResult result) {
 
+        ValidationUtils.rejectIfEmpty(result, "taskname", "Task Name can not be empty.");
+        ValidationUtils.rejectIfEmpty(result, "startdate", "Start Date can not be empty.");
+        ValidationUtils.rejectIfEmpty(result, "enddate", "End Date can not be empty.");
+        ValidationUtils.rejectIfEmpty(result, "priority", "Priority can not be empty.");
+
         HttpSession session = request.getSession(true);
         Object attribute = session.getAttribute("UserName");
         String username = attribute.toString();
@@ -63,11 +68,7 @@ public class TaskController {
         JsonResponse res = new JsonResponse();
         List<String> taskList = taskDAOImpl.taskList();
 
-        ValidationUtils.rejectIfEmpty(result, "taskname", "Task Name can not be empty.");
-        ValidationUtils.rejectIfEmpty(result, "startdate", "Start Date can not be empty.");
-        ValidationUtils.rejectIfEmpty(result, "enddate", "End Date can not be empty.");
-        ValidationUtils.rejectIfEmpty(result, "priority", "Priority can not be empty.");
-         if (!result.hasErrors()) {
+        if (!result.hasErrors()) {
             res.setResult(taskList);
             res.setStatus("SUCCESS");
         } else {
@@ -82,8 +83,7 @@ public class TaskController {
     JsonResponse listTask() {
         JsonResponse res = new JsonResponse();
         List<String> taskList = taskDAOImpl.taskList();
-        if (taskList.size() > 0)
-        {
+        if (taskList.size() > 0) {
             res.setResult(taskList);
             res.setStatus("SUCCESS");
         } else {
@@ -128,11 +128,24 @@ public class TaskController {
         }
         return res;
     }
-
 //    @RequestMapping("/taskview/{taskname}")
 //    public String taskView(@PathVariable("taskname") String taskname, ModelMap modelMap) {
 //        List<Task> taskList = TaskDAOImpl.getTask(taskname);
 //        modelMap.addAttribute("taskList", taskList);
 //        return "taskview";
 //    }
+
+    @RequestMapping(value = "workspacename/taskname/{taskname}", method = RequestMethod.POST)
+    public String getTask(@PathVariable("taskname") String taskname, ModelMap modelMap, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(true);
+        session.setAttribute("taskname", taskname);
+        String workspacename = (String) session.getAttribute("workspacename");
+        int workspaceId = workspaceDAOImpl.getWorkspaceIdByName(workspacename);
+        List<String> allUser = userDAOImpl.getUserByWorkspace(workspaceId);
+        modelMap.put("userList", allUser);
+        modelMap.put("taskname", taskname);
+
+        return "taskview";
+    }
 }

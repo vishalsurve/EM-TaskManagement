@@ -64,7 +64,7 @@ function taskList() {
                 taskname = "<ol>";
                 var mainDiv = document.createElement('div');
                 for (i = 0; i < response.result.length; i++) {
-                    var url = "http://www.google.co.in/";
+                    var url = "taskname/" + response.result[i];
                     var li = document.createElement('li');
                     mainDiv.appendChild(li);
                     var namDiv = document.createElement('div');
